@@ -85,6 +85,10 @@ Show::
 
 Note: configured rds_name will automatically append with number of instances starting from ``_node0``
 
+Create::
+
+    ./grole otc_rds: ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+
 Resize Volume::
 
     ./grole otc_rds; ansible-playbook roles.yml -e "localaction=resize_volume  rds_name=ansible-mysql01_node0 rds_volume_size=120"
