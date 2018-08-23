@@ -1,0 +1,7 @@
+*.retry
+.eggs/
+tests/roles
+.tox/
+doc/build/
+AUTHORS
+ChangeLog

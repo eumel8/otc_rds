@@ -1,5 +1,25 @@
 ---
 - hosts: localhost
-  remote_user: root
+  gather_facts: no
+  vars_files:
+   - "vars/tenant.yml"
+  vars:
+    rds_availability_zone: "{{ rds[rds_name].rds_availability_zone }}"
+    rds_vpc_name: "{{ rds[rds_name].rds_vpc_name }}"
+    rds_secgroup_name: "{{ rds[rds_name].rds_secgroup_name }}"
+    rds_subnet_name: "{{ rds[rds_name].rds_subnet_name }}"
+    rds_type: "{{ rds[rds_name].rds_type | default('MySQL') }}"
+    rds_version: "{{ rds[rds_name].rds_version }}"
+    rds_root_password: "{{ rds[rds_name].rds_root_password }}"
+    rds_port: "{{ rds[rds_name].rds_port | default(3306) }}"
+    rds_ram: "{{ rds[rds_name].rds_ram }}"
+    rds_volume_type: "{{ rds[rds_name].rds_volume_type | default('COMMON') }}"
+    rds_volume_size: "{{ rds[rds_name].rds_volume_size | default(100) }}"
+    rds_backup_time: "{{ rds[rds_name].rds_backup_time | default('00:00:00') }}"
+    rds_backup_days: "{{ rds[rds_name].rds_backup_days }}"
+    rds_ha_enabled: "{{ rds[rds_name].rds_ha_enabled }}"
+    rds_ha_replication_mode: "{{ rds[rds_name].rds_ha_replication_mode }}"
+
   roles:
-    - otc_rds
+    - role: "otc_auth"
+    - role: "otc_rds"
