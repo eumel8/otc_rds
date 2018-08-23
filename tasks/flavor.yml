@@ -44,7 +44,7 @@
   debug:
     msg: "{{ rds_flavors.json }}"
   when:
-    - rds_name is not defined
+    - localaction == "flavor"
 
 - name: debug rds_flavor_id
   debug:
