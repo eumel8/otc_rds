@@ -6,4 +6,4 @@ errorlog_startdate: "2018-05-01+00:00"
 errorlog_enddate: "2018-05-05+23:59"
 errorlog_curpage: 1
 errorlog_perpage: 100
-slowlog_type:
+slowlog_type: "SELECT"
