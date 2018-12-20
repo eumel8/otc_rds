@@ -8,9 +8,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - xenial
-  categories:
+  galaxy_tags:
     - cloud
     - python
     - openstack
-#dependencies:
-#  - role: otc_auth
