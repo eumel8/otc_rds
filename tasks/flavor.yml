@@ -23,22 +23,22 @@
   set_fact:
     rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
-    - rds_ram is defined
-#    - rds_ha_enabled == false
+    - rds_ram
+#    - not rds_ha_enabled
 
 - name: Set fact rds_flavor_id (HA)
   set_fact:
     rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`.ha`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
-    - rds_ram is defined
-    - (rds_ha_enabled is defined and rds_ha_enabled == true)
+    - rds_ram
+    - (rds_ha_enabled and rds_ha_enabled)
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
     rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
-    - rds_ram is defined
-    - rds_ha_enabled == false
+    - rds_ram
+    - not rds_ha_enabled
 
 - name: debug rds_flavors.json
   debug:
@@ -50,4 +50,4 @@
   debug:
     msg: "{{ rds_flavor_id }}"
   when:
-    - rds_flavor_id is defined
+    - rds_flavor_id
