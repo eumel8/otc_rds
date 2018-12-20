@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: yes
+  gather_facts: no
   vars_files:
    - "vars/tenant.yml"
   vars:
