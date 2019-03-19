@@ -1,9 +1,9 @@
-- name: Lookup rds_version_id
-  include: version.yml
+#- name: Lookup rds_version_id
+#  include: version.yml
 
 - name: Request rds flavors from API
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors?dbId={{ rds_version_id }}&region={{ PROJECT_NAME }}"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version.rsplit('.',1)[0] }}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
