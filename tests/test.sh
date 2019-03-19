@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "SCENARIO 1: version RDS"
-ansible-playbook test.yml -e "localaction=version" || exit 1
+ansible-playbook test.yml -e "localaction=version" -vvvv|| exit 1
 echo "SCENARIO 2: flavor RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 rds_type=MySQL rds_version=5.7.20 localaction=flavor" || exit 1
 echo "SCENARIO 3: create RDS"
