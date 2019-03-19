@@ -75,7 +75,7 @@
 
 - name: Send request to API (create RDS)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances"
     method: POST
     body_format: raw
     return_content: yes
@@ -108,7 +108,7 @@
 
 - name: Send request to API (wait for rds ACTIVE)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"

@@ -3,7 +3,7 @@
 
 - name: Send request to API (restore RDS backup)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/action"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/action"
     method: POST
     body_format: raw
     return_content: yes
