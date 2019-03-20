@@ -3,7 +3,8 @@
 
 - name: Request rds flavors from API
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version.rsplit('.',1)[0] }}"
+#    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version.rsplit('.',1)[0] }}"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version }}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"

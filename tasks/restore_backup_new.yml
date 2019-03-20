@@ -1,10 +1,10 @@
+- name: Lookup rds_spec_code
+  include: flavor.yml
+
 #- name: Lookup rds_id
 #  include: lookup.yml
 
-- name: Lookup rds_flavor_id
-  include: flavor.yml
-
-- name: Send request to API (create RDS backup)
+- name: Send request to API (create RDS backup instance)
   uri:
     url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances"
     method: POST

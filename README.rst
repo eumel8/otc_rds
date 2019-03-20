@@ -6,64 +6,68 @@ OTC role for RDS.
 Variables:
 ^^^^^^^^^^
 
-+-------------------------+-----------------------------------------------------------+
-| Name                    | Description                                               |
-+=========================+===========================================================+
-| rds_version_id          | ID of the RDS version (to use to fetch flavor             |
-+-------------------------+-----------------------------------------------------------+
-| rds_name                | Name of RDS instance                                      |
-+-------------------------+-----------------------------------------------------------+
-| rds_type                | RDS type (MySQL or PostgreSQL)                            |
-+-------------------------+-----------------------------------------------------------+
-| rds_version             | RDS version (i.e. 5.6.7)                                  |
-+-------------------------+-----------------------------------------------------------+
-| rds_flavor_id           | ID of RDS flavor                                          |
-+-------------------------+-----------------------------------------------------------+
-| rds_volume_type         | Type of RDS volume (COMMON (SATA) or ULTRAHIGH (SSD))     |
-+-------------------------+-----------------------------------------------------------+
-| rds_volume_size         | Size of RDS volume (100 GB smallest)                      |
-+-------------------------+-----------------------------------------------------------+
-| rds_port                | RDS port                                                  |
-+-------------------------+-----------------------------------------------------------+
-| rds_ram                 | Memory for RDS in MB                                      |
-+-------------------------+-----------------------------------------------------------+
-| rds_availability_zone   | RDS Availability Zone ( i.e. eu_de-01)                    |
-+-------------------------+-----------------------------------------------------------+
-| rds_secgroup_name       | RDS Security Group                                        |
-+-------------------------+-----------------------------------------------------------+
-| rds_subnet_name         | RDS subnet                                                |
-+-------------------------+-----------------------------------------------------------+
-| rds_backup_time         | Start time of backup (i.e. 01:00:00)                      |
-+-------------------------+-----------------------------------------------------------+
-| rds_backup_id           | ID of RDS backup (required for restore                    |
-+-------------------------+-----------------------------------------------------------+
-| rds_backup_name         | Name if manual generated backup                           |
-+-------------------------+-----------------------------------------------------------+
-| rds_backup_time         | Start time of backup (i.e. 01:00:00)                      |
-+-------------------------+-----------------------------------------------------------+
-| rds_backup_days         | Keep days of backups (between 1-35, 0 = disabled)         |
-+-------------------------+-----------------------------------------------------------+
-| rds_restore_time        | Timestamp of RDS restore                                  |
-+-------------------------+-----------------------------------------------------------+
-| rds_ha_enabled          | RDS HA enabled or not (true or false)                     |
-+-------------------------+-----------------------------------------------------------+
-| rds_ha_replication_mode | RDS replication mode (async or semisync for MySQL,        |
-|                         | async or sync for PostgreSQL)                             |
-+-------------------------+-----------------------------------------------------------+
-| rds_root_password       | RDS root password                                         |
-+-------------------------+-----------------------------------------------------------+
-| errorlog_startdate      | Start date of error log (i.e. 2018-04-05+23:59)           |
-+-------------------------+-----------------------------------------------------------+
-| errorlog_enddate        | End date of error log (i.e. 2018-05-05+23:59)             |
-+-------------------------+-----------------------------------------------------------+
-| errorlog_curpage        | Pages per error log (default 1)                           |
-+-------------------------+-----------------------------------------------------------+
-| errorlog_perpage        | Error message per page (1-100, default 100)               |
-+-------------------------+-----------------------------------------------------------+
-| slowlog_type            | Type of slowlog (INSERT, UPDATE, SELECT, DELETE, CREATE)  |
-+-------------------------+-----------------------------------------------------------+
-| waitfor                 | Wait for RDS creation is finished (true or false)         |
-+-------------------------+-----------------------------------------------------------+
++-------------------------+----------------------------------------------------------------+
+| Name                    | Description                                                    |
++=========================+================================================================+
+| rds_version_id          | ID of the RDS version (to use to fetch flavor                  |
++-------------------------+----------------------------------------------------------------+
+| rds_name                | Name of RDS instance                                           |
++-------------------------+----------------------------------------------------------------+
+| rds_type                | RDS type (MySQL or PostgreSQL)                                 |
++-------------------------+----------------------------------------------------------------+
+| rds_version             | RDS version (i.e. 5.6.7)                                       |
++-------------------------+----------------------------------------------------------------+
+| rds_spec_code           | RDS resource specification code, (i.e. rds.mysql.m1.xlarge.ha) |
++-------------------------+----------------------------------------------------------------+
+| rds_instance_mode       | RDS instance type (ha,replica or single)                       |
++-------------------------+----------------------------------------------------------------+
+| rds_volume_type         | Type of RDS volume (COMMON (SATA) or ULTRAHIGH (SSD))          |
++-------------------------+----------------------------------------------------------------+
+| rds_volume_size         | Size of RDS volume (40 - 4000 GB)                              |
++-------------------------+----------------------------------------------------------------+
+| rds_port                | RDS port                                                       |
++-------------------------+----------------------------------------------------------------+
+| rds_ram                 | Memory for RDS in MB                                           |
++-------------------------+----------------------------------------------------------------+
+| rds_availability_zone   | RDS Availability Zone ( i.e. eu_de-01)                         |
++-------------------------+----------------------------------------------------------------+
+| rds_secgroup_name       | RDS Security Group                                             |
++-------------------------+----------------------------------------------------------------+
+| rds_subnet_name         | RDS subnet                                                     |
++-------------------------+----------------------------------------------------------------+
+| rds_backup_time         | Start time of backup (i.e. 01:00:00)                           |
++-------------------------+----------------------------------------------------------------+
+| rds_backup_id           | ID of RDS backup (required for restore                         |
++-------------------------+----------------------------------------------------------------+
+| rds_backup_name         | Name if manual generated backup                                |
++-------------------------+----------------------------------------------------------------+
+| rds_backup_time         | Start time of backup (i.e. 01:00:00)                           |
++-------------------------+----------------------------------------------------------------+
+| rds_backup_days         | Keep days of backups (between 0-732, 0 = disabled)             |
++-------------------------+----------------------------------------------------------------+
+| rds_restore_time        | Timestamp of RDS restore                                       |
++-------------------------+----------------------------------------------------------------+
+| rds_ha_enabled          | RDS HA enabled or not (true or false)                          |
++-------------------------+----------------------------------------------------------------+
+| rds_ha_replication_mode | RDS replication mode (async or semisync for MySQL,             |
+|                         | async or sync for PostgreSQL)                                  |
++-------------------------+----------------------------------------------------------------+
+| rds_disk_encryption_id  | Key ID for disc encryption                                     |
++-------------------------+----------------------------------------------------------------+
+| rds_root_password       | RDS root password                                              |
++-------------------------+----------------------------------------------------------------+
+| errorlog_startdate      | Start date of error log (i.e. 2018-04-05+23:59)                |
++-------------------------+----------------------------------------------------------------+
+| errorlog_enddate        | End date of error log (i.e. 2018-05-05+23:59)                  |
++-------------------------+----------------------------------------------------------------+
+| errorlog_curpage        | Pages per error log (default 1)                                |
++-------------------------+----------------------------------------------------------------+
+| errorlog_perpage        | Error message per page (1-100, default 100)                    |
++-------------------------+----------------------------------------------------------------+
+| slowlog_type            | Type of slowlog (INSERT, UPDATE, SELECT, DELETE, CREATE)       |
++-------------------------+----------------------------------------------------------------+
+| waitfor                 | Wait for RDS creation is finished (true or false)              |
++-------------------------+----------------------------------------------------------------+
 
 
 Functions:
@@ -125,9 +129,13 @@ Restore current DB::
 
     ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01 rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql01_node0 localaction=restore_backup_current" 
 
-Restore to a new instance::
+Restore to a new instance (with file backup)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_backup_instance_id=a5c2ec42d49f41a8b1738f054d88fbc2no01 rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+
+Restore to a new instance (PITR Recovery)::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
 
 Note: grab the different IDs for example from ``List backups``
 
