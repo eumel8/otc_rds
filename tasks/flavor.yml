@@ -1,5 +1,5 @@
-#- name: Lookup rds_version_id
-#  include: version.yml
+- name: Lookup rds_version_id
+  include: version.yml
 
 - name: Request rds flavors from API
   uri:
@@ -21,20 +21,21 @@
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
-    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
+    rds_ram: "{{ rds_ram | int // 1000 }}"
+    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
 
-- name: Set fact rds_flavor_id (HA)
+- name: Set fact rds_spec_code (HA)
   set_fact:
-    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`.ha`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
+    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`ha`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
     - rds_ha_enabled is defined
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
-    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
+    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
     - rds_ha_enabled is defined
@@ -45,8 +46,8 @@
   when:
     - localaction == "flavor"
 
-- name: debug rds_flavor_id
+- name: debug rds_spec_code
   debug:
-    msg: "{{ rds_flavor_id }}"
+    msg: "{{ rds_spec_code }}"
   when:
-    - rds_flavor_id is defined
+    - rds_spec_code is defined
