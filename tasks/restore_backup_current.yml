@@ -3,7 +3,7 @@
 
 - name: Send request to API (restore RDS backup)
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/action"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/recovery"
     method: POST
     body_format: raw
     return_content: yes
@@ -21,7 +21,7 @@
   until: rdsbackup.status == 200 or rdsbackup.status == 201 or rdsbackup.status == 202 or rdsbackup.status == 203
   changed_when: false
   when:
-    - rds_backup_id is defined
+    - rds_id is defined
 
 - name: Output of rdsbackup
   debug:

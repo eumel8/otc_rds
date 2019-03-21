@@ -13,6 +13,10 @@ Variables:
 +-------------------------+----------------------------------------------------------------+
 | rds_name                | Name of RDS instance                                           |
 +-------------------------+----------------------------------------------------------------+
+| rds_id                  | ID of RDS instance                                             |
++-------------------------+----------------------------------------------------------------+
+| rds_node_id             | ID of RDS instance node (name convention _node0,_node1..)      |
++-------------------------+----------------------------------------------------------------+
 | rds_type                | RDS type (MySQL or PostgreSQL)                                 |
 +-------------------------+----------------------------------------------------------------+
 | rds_version             | RDS version (i.e. 5.6.7)                                       |
@@ -105,11 +109,13 @@ Resize Flavor::
 
 Reboot an instance::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 localaction=reboot"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=d61a75b397ff4af1837fafb75a860eafin01 localaction=reboot"
+
+Note: rds_node_id to shown from ``Show`` command
 
 Delete an instance::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 localaction=delete"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=delete"
 
 List backups::
 
@@ -125,15 +131,23 @@ Delete a backup::
 
 Note: grab the rds_backup_id from ``List backups``
 
-Restore current DB::
+Restore current DB (with file backup)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01 rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql01_node0 localaction=restore_backup_current" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01 rds_name=ansible-mysql01 localaction=restore_backup_current" 
+
+Restore current DB (Point in Time Recovery)::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql01 localaction=restore_backup_current" 
+
+Note: microseconds are rounded
 
 Restore to a new instance (with file backup)::
 
     ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
 
-Restore to a new instance (PITR Recovery)::
+Note: best case to define the new instance in vars file
+
+Restore to a new instance (Point in Time Recovery)::
 
     ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
 
@@ -141,14 +155,14 @@ Note: grab the different IDs for example from ``List backups``
 
 Query error log::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 errorlog_startdate=2018-05-01+00:00 errorlog_enddate=2018-05-13+18:00 localaction=errorlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 errorlog_startdate=2018-05-01+00:00 errorlog_enddate=2018-05-13+18:00 localaction=errorlog"
 
-Note: You can only query error logs generated within a month.
+Note: You can only query error logs generated within a month. rds_node_id to shown from ``Show`` command
 
 Query slow query log::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 localaction=slowlog"
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 slowlog_type=SELECT localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 slowlog_type=SELECT localaction=slowlog"
 
 Note: if ``slowlog_type`` is not set, all types will be queried

@@ -24,7 +24,7 @@
   until: rdsbackup.status == 200 or rdsbackup.status == 201 or rdsbackup.status == 202 or rdsbackup.status == 203
   changed_when: false
   when:
-    - rds_backup_id is defined
+    - rds_id is defined
 
 - name: Output of rdsbackup
   debug:

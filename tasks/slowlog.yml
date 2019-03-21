@@ -1,9 +1,9 @@
-- name: Lookup rds_id
-  include: lookup.yml
+#- name: Lookup rds_id
+#  include: lookup.yml
 
 - name: Send request to API (show RDS slowlog)
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/slowlog?sftype={{ slowlog_type }}"
+    url: "{{ AUTH_URL_RDS }}/rds/v1/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/slowlog?sftype={{ slowlog_type }}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
@@ -18,7 +18,7 @@
   until: rds.status == 200
   changed_when: false
   when:
-    - rds_id is defined
+    - rds_node_id is defined
 
 - name: Output of rds
   debug:
