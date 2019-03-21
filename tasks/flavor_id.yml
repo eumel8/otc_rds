@@ -1,6 +1,6 @@
 # Deprecated. Required due the missing resize feature on v3 API
 - name: Lookup rds_version_id
-  include: version.yml
+  include: version_v1.yml
 
 - name: Request rds flavors from API
   uri:

@@ -105,7 +105,7 @@ Resize Volume::
 
 Resize Flavor::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 rds_ram=8196  rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=resize_flavor"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_node_id=d61a75b397ff4af1837fafb75a860eafin01  rds_ram=8000  rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=resize_flavor"
 
 Reboot an instance::
 

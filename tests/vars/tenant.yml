@@ -7,7 +7,7 @@ rds:
     rds_subnet_name: "ansible-subnet01"
     rds_vpc_name: "ansible-vpc01"
     rds_type: "MySQL"
-    rds_version: "5.7.20"
+    rds_version: "5.7"
     rds_root_password: "Test123!"
     rds_port: 3306
     rds_ram: 2048
