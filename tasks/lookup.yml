@@ -19,3 +19,8 @@
   set_fact:
     rds_id: "{{ (rds.content|from_json)|json_query(\"instances[?name=='\" + rds_name + \"'].id|[0]\") }}"
   when: rds_name is defined
+
+- name: Set fact rds_node_id for rds if rds_node_id is not defined
+  set_fact:
+    rds_node_id: "{{ (rds.content|from_json)|json_query(\"instances[?name=='\" + rds_name + \"'].nodes[].id|[0]\") }}"
+  when: rds_node_id is not defined
