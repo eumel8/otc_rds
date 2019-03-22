@@ -1,6 +1,6 @@
 ---
 rds:
-  ansible-mysql01
+  ansible-mysql01:
     rds_availability_zone: "eu_de-01"
     rds_kmsKeyId: "56002486-b6e5-49be-a3c7-5a3e64d05689"
     rds_secgroup_name: "ansible-test01"
