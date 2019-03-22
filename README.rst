@@ -108,6 +108,8 @@ Resize Flavor::
 
 Reboot an instance::
 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 waitfor=true localaction=reboot"
+
     ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=d61a75b397ff4af1837fafb75a860eafin01 localaction=reboot"
 
 Note: rds_node_id to shown from ``Show`` command
@@ -122,7 +124,7 @@ List backups::
 
 Create a backup::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01_node0 rds_backup_name=my_backup_mysql01_1 localaction=create_backup"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_backup_name=my_backup_mysql01_1 localaction=create_backup"
 
 Delete a backup::
 
