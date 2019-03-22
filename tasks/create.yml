@@ -120,7 +120,7 @@
   register: rds
   retries: 300
   delay: 5
-  until: ((rds.content|from_json)|json_query('instances.status|[0]')) == 'ACTIVE'
+  until: ((rds.content|from_json)|json_query('instances[].status|[0]')) == 'ACTIVE'
   changed_when: false
   when:
     - rds_id is defined
