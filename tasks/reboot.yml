@@ -1,9 +1,11 @@
-- name: Lookup rds_id
+- name: Lookup rds_node_id
   include: lookup.yml
 
 - name: Send request to API (reboot RDS)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/action"
+    url: "{{ AUTH_URL_RDS }}/rds/v1/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/action"
+# prep for v3
+#    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/action"
     method: POST
     body_format: raw
     return_content: yes
@@ -21,8 +23,32 @@
   until: rds.status == 200 or rds.status == 201 or rds.status == 202 or rds.status == 203
   changed_when: false
   when:
-    - rds_id is defined
+    - rds_node_id is defined
 
 - name: Output of rds
+  debug:
+    msg: "{{ rds }}"
+
+- name: Send request to API (wait for rds ACTIVE)
+  uri:
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances?id={{ rds_id }}"
+    method: GET
+    return_content: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+      X-Language: "en-us"
+  register: rds
+  retries: 300
+  delay: 5
+  until: ((rds.content|from_json)|json_query('instances[].status|[0]')) == 'ACTIVE'
+  changed_when: false
+  when:
+    - rds_id is defined
+    - waitfor | bool
+
+- name: Output of rds 2
   debug:
     msg: "{{ rds }}"

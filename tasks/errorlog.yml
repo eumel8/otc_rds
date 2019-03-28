@@ -1,9 +1,8 @@
-- name: Lookup rds_id
-  include: lookup.yml
-
 - name: Send request to API (show RDS errorlog)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_id }}/errorlog?startDate={{ errorlog_startdate | regex_replace(':', '%3A') }}&endDate={{ errorlog_enddate | regex_replace(':', '%3A') }}&curPage={{ errorlog_curpage }}&perPage={{ errorlog_perpage }}"
+    url: "{{ AUTH_URL_RDS }}/rds/v1/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/errorlog?startDate={{ errorlog_startdate | regex_replace(':', '%3A') }}&endDate={{ errorlog_enddate | regex_replace(':', '%3A') }}&curPage={{ errorlog_curpage }}&perPage={{ errorlog_perpage }}"
+# prep for v3
+#    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/errorlog?start_date={{ errorlog_startdate }}&end_date={{ errorlog_enddate }}&offset={{ errorlog_curpage }}&limit={{ errorlog_perpage }}&level={{ errorlog_level}}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
@@ -18,7 +17,7 @@
   until: rds.status == 200
   changed_when: false
   when:
-    - rds_id is defined
+    - rds_node_id is defined
 
 - name: Output of rds
   debug:

@@ -1,8 +1,15 @@
-{    
-"restore": {
+{
+    "source": {
+      "instance_id": "{{ rds_id }}",
 {% if rds_restore_time is defined and rds_restore_time|length != 0 %}  
-        "restoreTime": {{ lookup('pipe','date +%s --date=\"' + rds_restore_time + '\"') }},
+      "type": "timestamp",
+      "restore_time": {{ lookup('pipe','date +%s --date=\"' + rds_restore_time + '\"') + '000' }}
+{% else %}  
+      "type": "backup",
+      "backup_id": "{{ rds_backup_id }}"
 {% endif %}  
-        "backupRef":"{{ rds_backup_id }}"
+    },
+    "target": {
+      "instance_id": "{{ rds_id }}"
     }
 }

@@ -1,12 +1,12 @@
+- name: Lookup rds_spec_code
+  include: flavor.yml
+
 #- name: Lookup rds_id
 #  include: lookup.yml
 
-- name: Lookup rds_flavor_id
-  include: flavor.yml
-
-- name: Send request to API (create RDS backup)
+- name: Send request to API (create RDS backup instance)
   uri:
-    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances"
     method: POST
     body_format: raw
     return_content: yes
@@ -24,7 +24,7 @@
   until: rdsbackup.status == 200 or rdsbackup.status == 201 or rdsbackup.status == 202 or rdsbackup.status == 203
   changed_when: false
   when:
-    - rds_backup_id is defined
+    - rds_id is defined
 
 - name: Output of rdsbackup
   debug:
