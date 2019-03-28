@@ -1,6 +1,6 @@
 - name: Request rds list from API for mysql
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/datastores/MySQL"
+    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/datastores/MySQL/versions"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
@@ -18,7 +18,7 @@
 
 - name: Request rds list from API for postgresql
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/datastores/PostgreSQL"
+    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/datastores/PostgreSQL/versions"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"

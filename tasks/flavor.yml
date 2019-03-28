@@ -3,8 +3,7 @@
 
 - name: Request rds flavors from API
   uri:
-#    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version.rsplit('.',1)[0] }}"
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/flavors/{{ rds_type }}?version_name={{ rds_version }}"
+    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/flavors?dbId={{ rds_version_id }}&region={{ PROJECT_NAME }}"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
@@ -22,22 +21,21 @@
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
-    rds_ram: "{{ rds_ram | int // 1000 }}"
-    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
+    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
     - rds_ram is defined
 #    - rds_ha_enabled == false
 
-- name: Set fact rds_spec_code (HA)
+- name: Set fact rds_flavor_id (HA)
   set_fact:
-    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`ha`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
+    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`.ha`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
     - rds_ram is defined
-    - rds_ha_enabled == true
+    - (rds_ha_enabled is defined and rds_ha_enabled == true)
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
-    rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
+    rds_flavor_id: "{{ (rds_flavors.content|from_json)|json_query('flavors[?ends_with(specCode,`small`) || ends_with(specCode,`medium`) || ends_with(specCode,`large`)] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].id|[0]') }}"
   when:
     - rds_ram is defined
     - rds_ha_enabled == false
@@ -48,8 +46,8 @@
   when:
     - localaction == "flavor"
 
-- name: debug rds_spec_code
+- name: debug rds_flavor_id
   debug:
-    msg: "{{ rds_spec_code }}"
+    msg: "{{ rds_flavor_id }}"
   when:
-    - rds_spec_code is defined
+    - rds_flavor_id is defined

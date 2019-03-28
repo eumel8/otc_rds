@@ -1,6 +1,6 @@
 - name: Send request to API (list RDS)
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances"
+    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/instances"
     method: GET
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"

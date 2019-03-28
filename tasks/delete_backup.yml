@@ -1,6 +1,6 @@
 - name: Send request to API (delete RDS backup)
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/backups/{{ rds_backup_id }}"
+    url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/backups/{{ rds_backup_id }}"
     method: DELETE
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"

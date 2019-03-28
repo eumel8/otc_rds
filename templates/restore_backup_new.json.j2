@@ -1,41 +1,14 @@
 {
-    "name": "{{ rds_name }}",
-    "datastore": {
-        "type": "{{ rds_type }}",
-        "version": "{{ rds_version }}"
-    },
-    "flavor_ref": "{{ rds_spec_code }}",
-    "volume": {
-        "type": "{{ rds_volume_type }}",
-        "size": {{ rds_volume_size }}
-    },
-    "region": "{{ PROJECT_NAME }}",
-    "availability_zone": "{{ rds_availability_zone }}",
-    "port": {{ rds_port }},
-{% if rds_backup_days is defined and rds_backup_days|length != 0 %}  
-    "backup_strategy": {
-        "start_time": "{{ rds_backup_time }}",
-        "keep_days": {{ rds_backup_days }}
-    },
-{% endif %}  
-{% if rds_disk_encryption_id is defined and rds_disk_encryption_id|length != 0 %}  
-    "disk_encryption_id": "{{ rds_disk_encryption_id }}",
-{% endif %}  
-{% if rds_ha_enabled == true %}  
-    "ha": {
-        "enable": true,
-        "replication_mode": "{{ rds_ha_replication_mode }}"
-    },
-{% endif %}  
-    "password": "{{ rds_root_password }}",
-    "restore_point": {
-           "instance_id": "{{ rds_id }}",
-{% if rds_restore_time is defined and rds_restore_time|length != 0 %}  
-           "type": "timestamp",
-           "restore_time": {{ lookup('pipe','date +%s --date=\"' + rds_restore_time + '\"') + '000' }}
-{% else %}  
-           "type": "backup",
-           "backup_id": "{{ rds_backup_id }}"
-{% endif %}  
+    "instance": {
+        "name": "{{ rds_name }}",
+        "flavorRef": "{{ rds_flavor_id }}",
+        "volume": {
+            "size": {{ rds_volume_size }}
+        },
+        "restorePoint":{
+           "backupRef": "{{ rds_backup_id }}",
+           "restoreTime": {{ lookup('pipe','date +%s --date=\"' + rds_restore_time + '\"') }},
+           "sourceInstanceId": "{{ rds_backup_instance_id }}"
+        }
     }
 }
