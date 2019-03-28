@@ -26,20 +26,21 @@
     rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
+#    - rds_ha_enabled == false
 
 - name: Set fact rds_spec_code (HA)
   set_fact:
     rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`ha`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
-    - rds_ha_enabled is defined
+    - rds_ha_enabled == true
 
 - name: Set fact rds_flavor_id (without HA)
   set_fact:
     rds_spec_code: "{{ (rds_flavors.content|from_json)|json_query('flavors[?instance_mode==`single`] |sort_by(@, &ram)|[?ram>=`' + rds_ram + '`].spec_code|[0]') }}"
   when:
     - rds_ram is defined
-    - rds_ha_enabled is defined
+    - rds_ha_enabled == false
 
 - name: debug rds_flavors.json
   debug:
