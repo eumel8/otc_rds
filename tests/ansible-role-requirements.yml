@@ -1,8 +1,8 @@
 - name: otc_auth
   scm: git
   src: https://github.com/eumel8/otc_auth.git
-  version: dev
+  version: master
 - name: otc_rds
   scm: git
   src: https://github.com/eumel8/otc_rds.git
-  version: dev
+  version: master
