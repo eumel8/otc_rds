@@ -16,12 +16,13 @@ echo "SCENARIO 7: create backup RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 rds_backup_name=backup_ansible-mysql01_1 localaction=create_backup" || exit 1
 echo "SCENARIO 8: list backups RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=backups" || exit 1
-echo "SCENARIO 9: delete RDS"
+echo "SCENARIO 9: restore current instance RDS"
+ansible-playbook test-restore.yml -e "rds_name=ansible-mysql01" || exit 1
+echo "SCENARIO 10: delete RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete" || exit 1
 #echo "SCENARIO 10: resize volume RDS"
 #echo "SCENARIO 11: resize flavor RDS"
 #echo "SCENARIO 12: delete backup RDS"
-#echo "SCENARIO 13: restore current instance RDS"
 #echo "SCENARIO 14: restore new instance RDS"
 #echo "SCENARIO 15: query error log RDS"
 #echo "SCENARIO 16: query slow log RDS"
