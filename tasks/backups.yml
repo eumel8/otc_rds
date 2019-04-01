@@ -24,7 +24,7 @@
   set_fact:
     rds_backup_id: "{{ (rdsbackuploop.content|from_json)|json_query(\"backups[].id|[0]\") }}"
   when: waitfor|bool
- 
+
 - name: Send request to API (list RDS backups)
   uri:
     url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/backups?instance_id={{ rds_id }}"
