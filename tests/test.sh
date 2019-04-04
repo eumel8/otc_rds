@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "CLEANUP"
+ansible-playbook cleanup.yml || exit 1
 echo "SCENARIO 1: version RDS"
 ansible-playbook test.yml -e "localaction=version" || exit 1
 echo "SCENARIO 2: flavor RDS"
