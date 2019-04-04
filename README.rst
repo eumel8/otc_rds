@@ -144,15 +144,15 @@ Note: microseconds are rounded
 
 Restore to a new instance (with file backup)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false rds_id=02eabf2523c8445e80faa0452c991e87br01 localaction=restore_backup_new" 
 
-Note: best case to define the new instance in vars file
+Note: instance version is assigned to the backup set, so it's not possible to restore MySQL 5.7 version from MySQL 5.6 backup
 
 Restore to a new instance (Point in Time Recovery)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false rds_id=02eabf2523c8445e80faa0452c991e87br01 localaction=restore_backup_new" 
 
-Note: grab the different IDs for example from ``List backups``
+Note: grab the different IDs for example from ``list (backups)``
 
 Query error log::
 
