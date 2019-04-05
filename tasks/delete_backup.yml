@@ -1,3 +1,35 @@
+- name: Lookup rds_id
+  include: lookup.yml
+  when:
+    - rds_backup_id is not defined
+
+- name: Send request to API (loop list RDS backups)
+  uri:
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/backups?instance_id={{ rds_id }}"
+    method: GET
+    return_content: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+      X-Language: "en-us"
+  register: rdsbackuploop
+  retries: 300
+  delay: 5
+  until: rdsbackuploop.json.backups[0].status == "COMPLETED"
+  changed_when: false
+  when:
+    - waitfor|bool
+    - rds_backup_id is not defined
+
+- name: Set fact rds_backup_id for first found backup
+  set_fact:
+    rds_backup_id: "{{ (rdsbackuploop.content|from_json)|json_query(\"backups[].id|[0]\") }}"
+  when:
+    - waitfor|bool
+    - rds_backup_id is not defined
+
 - name: Send request to API (delete RDS backup)
   uri:
     url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/backups/{{ rds_backup_id }}"
