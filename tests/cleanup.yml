@@ -9,7 +9,3 @@
       rds_name: "ansible-mysql01"
       localaction: "delete"
       uri_retries: 1
-    - role: "otc_rds"
-      rds_name: "ansible-mysql01"
-      localaction: "delete_backup"
-      uri_retries: 1
