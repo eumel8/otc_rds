@@ -15,7 +15,7 @@ ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=reboot waitfo
 echo "SCENARIO 6: list RDS"
 ansible-playbook test.yml -e "localaction=list" || exit 1
 echo "SCENARIO 7: create backup RDS"
-ansible-playbook test.yml -e "rds_name=ansible-mysql01 rds_backup_name=backup_ansible-mysql01_1 localaction=create_backup" -vv || exit 1
+ansible-playbook test.yml -e "rds_name=ansible-mysql01 rds_backup_name=backup_ansible-mysql01_1 localaction=create_backup" || exit 1
 echo "SCENARIO 8: list backups RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=backups" || exit 1
 echo "SCENARIO 9: restore current instance RDS"
