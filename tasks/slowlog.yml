@@ -1,5 +1,5 @@
-#- name: Lookup rds_id
-#  include: lookup.yml
+- name: Lookup rds_node_id
+  include: lookup.yml
 
 - name: Send request to API (show RDS slowlog)
   uri:
