@@ -98,11 +98,15 @@ Note: configured rds_name will automatically append with number of instances sta
 
 Create::
 
-    ./grole otc_rds: ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+    ansible-playbook tenant_yml.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+
+Note: define rds settings in an extra file like in tests/vars/tenant.yml
 
 Create Parameter Group::
 
     ansible-playbook tenant_yml.yml -e "rds_name=ansible-mysql01 localaction=create_parametergroup"
+
+Note: define parameters in an extra file as key/value pairs in rds_parametergroup variable
 
 List Parameter Group::
 
@@ -180,8 +184,8 @@ Note: You can only query error logs generated within a month. rds_node_id to sho
 
 Query slow query log::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=slowlog"
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 slowlog_type=SELECT localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 slowlog_type=SELECT localaction=slowlog"
 
 Note: if ``slowlog_type`` is not set, all types will be queried
