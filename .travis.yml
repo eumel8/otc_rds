@@ -3,12 +3,12 @@ dist: xenial
 
 language: python
 python:
-  - "3.5"
+  - "2.7"
 
 # Doc: https://docs.travis-ci.com/user/customizing-the-build#Build-Matrix
 # https://docs.travis-ci.com/user/common-build-problems/
 env:
-  - ANSIBLE_VERSION=latest
+  - ANSIBLE_VERSION=2.6.3
 
 branches:
   only:
