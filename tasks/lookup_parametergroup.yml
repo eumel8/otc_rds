@@ -15,7 +15,7 @@
   until: rds.status == 200
   changed_when: false
 
-- name: Set fact rds_parametergroup_id 
+- name: Set fact rds_parametergroup_id
   set_fact:
     rds_parametergroup_id: "{{ (rds.content|from_json)|json_query(\"configurations[?name=='\" + rds_name + \"-params'].id|[0]\") }}"
   when: rds_name is defined
