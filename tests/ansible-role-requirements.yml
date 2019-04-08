@@ -5,4 +5,4 @@
 - name: otc_rds
   scm: git
   src: https://github.com/eumel8/otc_rds.git
-  version: parametergroups
+  version: dev
