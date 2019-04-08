@@ -2,7 +2,7 @@
     "name": "{{ rds_name }}-params",
     "description": "Ansible generated parameter group",
     "values": {
-{% for key, value in rds_parametergroup.iteritems() %}
+{% for key, value in rds_parametergroup.items() %}
         "{{ key }}": "{{ value }}",
 {% endfor %}
     },
