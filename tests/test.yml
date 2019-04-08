@@ -19,6 +19,7 @@
     rds_backup_days: "{{ rds[rds_name].rds_backup_days }}"
     rds_ha_enabled: "{{ rds[rds_name].rds_ha_enabled }}"
     rds_ha_replication_mode: "{{ rds[rds_name].rds_ha_replication_mode }}"
+    rds_parametergroup: "{{ rds[rds_name].rds_parametergroup }}"
 
   roles:
     - role: "otc_auth"

@@ -19,6 +19,7 @@ branches:
   only:
     - master
     - dev
+    - parametergroups
 
 install:
   # Install Ansible.

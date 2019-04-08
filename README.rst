@@ -71,6 +71,8 @@ Variables:
 +-------------------------+----------------------------------------------------------------+
 | waitfor                 | Wait for RDS creation is finished (true or false)              |
 +-------------------------+----------------------------------------------------------------+
+| rds_parametergroup      | Key/Value list of configuration parameter                      |
++-------------------------+----------------------------------------------------------------+
 
 
 Functions:
@@ -97,6 +99,22 @@ Note: configured rds_name will automatically append with number of instances sta
 Create::
 
     ./grole otc_rds: ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+
+Create Parameter Group::
+
+    ansible-playbook tenant_yml.yml -e "rds_name=ansible-mysql01 localaction=create_parametergroup"
+
+List Parameter Group::
+
+   ./grole otc_rds; ansible-playbook roles.yml -e "localaction=list_parametergroup"
+
+Apply Parameter Group::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=apply_parametergroup"
+
+Delete Parameter Group::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=delete_parametergroup"
 
 Resize Volume::
 
