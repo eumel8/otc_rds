@@ -1,0 +1,26 @@
+- name: Send request to API (create RDS parametergroup)
+  uri:
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/configurations"
+    method: POST
+    body_format: raw
+    return_content: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
+    status_code: 200,201,202,203
+    headers:
+      Content-Type: "application/json"
+      X-Language: "en-us"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+    body: "{{ lookup('template', 'create_parametergroup.json.j2')|to_json }}"
+  register: rds
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: rds.status == 200 or rds.status == 201 or rds.status == 202 or rds.status == 203
+  changed_when: false
+  when:
+    - rds_name is defined
+
+- name: Output of  rds
+  debug:
+    msg: "{{ rds }}"
+
