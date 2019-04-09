@@ -28,9 +28,7 @@
     msg: "{{ rdsbackup }}"
 
 - name: Wait a bit for job start
-  pause:
-    echo: no
-    seconds: 10
+  command: sleep 10
   when: waitfor | bool
 
 - name: Send request to API (wait for rds ACTIVE)
