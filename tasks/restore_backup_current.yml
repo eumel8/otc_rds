@@ -29,7 +29,7 @@
 
 - name: Wait a bit for job start
   pause:
-    echo;: no
+    echo: no
     seconds: 10
   when: waitfor | bool
 
