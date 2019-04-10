@@ -71,6 +71,8 @@ Variables:
 +-------------------------+----------------------------------------------------------------+
 | waitfor                 | Wait for RDS creation is finished (true or false)              |
 +-------------------------+----------------------------------------------------------------+
+| rds_parametergroup      | Key/Value list of configuration parameter                      |
++-------------------------+----------------------------------------------------------------+
 
 
 Functions:
@@ -96,7 +98,27 @@ Note: configured rds_name will automatically append with number of instances sta
 
 Create::
 
-    ./grole otc_rds: ansible-playbook roles.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+    ansible-playbook tenant_yml.yml -e "rds_name=ansible-mysql01 rds_root_password=Ab+12345678 localaction=create"
+
+Note: define rds settings in an extra file like in tests/vars/tenant.yml
+
+Create Parameter Group::
+
+    ansible-playbook tenant_yml.yml -e "rds_name=ansible-mysql01 localaction=create_parametergroup"
+
+Note: define parameters in an extra file as key/value pairs in rds_parametergroup variable
+
+List Parameter Group::
+
+   ./grole otc_rds; ansible-playbook roles.yml -e "localaction=list_parametergroup"
+
+Apply Parameter Group::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=apply_parametergroup"
+
+Delete Parameter Group::
+
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=delete_parametergroup"
 
 Resize Volume::
 
@@ -144,15 +166,15 @@ Note: microseconds are rounded
 
 Restore to a new instance (with file backup)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_backup_id=04eabf2523c8445e80faa0452c991e87br01" rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false rds_id=02eabf2523c8445e80faa0452c991e87br01 localaction=restore_backup_new" 
 
-Note: best case to define the new instance in vars file
+Note: instance version is assigned to the backup set, so it's not possible to restore MySQL 5.7 version from MySQL 5.6 backup
 
 Restore to a new instance (Point in Time Recovery)::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false localaction=restore_backup_new" 
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_restore_time='2018-05-13 19:30:01' rds_name=ansible-mysql02 rds_volume_size=120  rds_ram=4096 rds_type=MySQL rds_version=5.7.20 rds_ha_enabled=false rds_id=02eabf2523c8445e80faa0452c991e87br01 localaction=restore_backup_new" 
 
-Note: grab the different IDs for example from ``List backups``
+Note: grab the different IDs for example from ``list (backups)``
 
 Query error log::
 
@@ -162,8 +184,8 @@ Note: You can only query error logs generated within a month. rds_node_id to sho
 
 Query slow query log::
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 localaction=slowlog"
 
-    ./grole otc_rds; ansible-playbook roles.yml -e "rds_node_id=a0fbfc3ff14f4d7b8f4bec1aff2e7e8cno01 slowlog_type=SELECT localaction=slowlog"
+    ./grole otc_rds; ansible-playbook roles.yml -e "rds_name=ansible-mysql01 slowlog_type=SELECT localaction=slowlog"
 
 Note: if ``slowlog_type`` is not set, all types will be queried

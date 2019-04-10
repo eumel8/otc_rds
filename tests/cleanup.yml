@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: no
+  ignore_errors: true
+
+  roles:
+    - role: "otc_auth"
+    - role: "otc_rds"
+      rds_name: "ansible-mysql01"
+      localaction: "delete"
+      uri_retries: 1
+    - role: "otc_rds"
+      rds_backup_name: "backup_ansible-mysql01_1"
+      localaction: "cleanup_testbackups"
+      uri_retries: 1

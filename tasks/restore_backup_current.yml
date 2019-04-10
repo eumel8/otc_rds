@@ -26,3 +26,32 @@
 - name: Output of rdsbackup
   debug:
     msg: "{{ rdsbackup }}"
+
+- name: Wait a bit for job start
+  command: sleep 10
+  when: waitfor | bool
+
+- name: Send request to API (wait for rds ACTIVE)
+  uri:
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/instances?id={{ rds_id }}"
+    method: GET
+    return_content: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+      X-Language: "en-us"
+  register: rds
+  retries: 300
+  delay: 5
+  until: ((rds.content|from_json)|json_query('instances[].status|[0]')) == 'ACTIVE'
+  changed_when: false
+  when:
+    - rds_id is defined
+    - waitfor | bool
+
+- name: Output of rds
+  debug:
+    msg: "{{ rds }}"
+
