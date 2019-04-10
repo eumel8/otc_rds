@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  roles:
+    - role: "otc_auth"
+    - role: "otc_rds"
+      localaction: "backups"
+      waitfor: True
+    - role: "otc_rds"
+      localaction: "restore_backup_current"
+      waitfor: True
+    - role: "otc_rds"
+      localaction: "show"
+      waitfor: True

@@ -1,10 +1,12 @@
-- name: Lookup rds_node_id
-  include: lookup.yml
+- name: Lookup rds_parametergroup_id
+  include: lookup_parametergroup.yml
+  when:
+    - rds_name is defined
 
-- name: Send request to API (show RDS slowlog)
+- name: Send request to API (delete RDS parametergroup)
   uri:
-    url: "{{ AUTH_URL_RDS }}/rds/v1/{{ OS_USER_DOMAIN_ID }}/instances/{{ rds_node_id }}/slowlog?sftype={{ slowlog_type }}"
-    method: GET
+    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/configurations/{{ rds_parametergroup_id }}"
+    method: DELETE
     return_content: yes
     follow_redirects: "{{ uri_follow_redirects }}"
     validate_certs: "{{ uri_validate_certs }}"
@@ -18,8 +20,8 @@
   until: rds.status == 200
   changed_when: false
   when:
-    - rds_node_id is defined
+    - rds_parametergroup_id is defined
 
 - name: Output of rds
   debug:
-    msg: "{{ rds.json }}"
+    msg: "{{ rds }}"

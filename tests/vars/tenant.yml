@@ -17,3 +17,6 @@ rds:
     rds_backup_days: 0
     rds_ha_enabled: false
     rds_ha_replication_mode: "semisync"
+    rds_parametergroup:
+        max_connections: "2000"
+        autocommit: "OFF"
