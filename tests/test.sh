@@ -14,24 +14,24 @@ echo "SCENARIO 5: list RDS Parameter Group"
 ansible-playbook test.yml -e "localaction=list_parametergroup" || exit 1
 echo "SCENARIO 6: apply RDS Parameter Group"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=apply_parametergroup" || exit 1
-echo "SCENARIO 7: delete RDS Parameter Group"
-ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_parametergroup" || exit 1
-echo "SCENARIO 8: show RDS"
+echo "SCENARIO 7: show RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=show" || exit 1
-echo "SCENARIO 9: reboot RDS"
+echo "SCENARIO 8: reboot RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=reboot waitfor=true" || exit 1
-echo "SCENARIO 10: list RDS"
+echo "SCENARIO 9: list RDS"
 ansible-playbook test.yml -e "localaction=list" || exit 1
-echo "SCENARIO 11: create backup RDS"
+echo "SCENARIO 10: create backup RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 rds_backup_name=backup_ansible-mysql01_1 localaction=create_backup" || exit 1
-echo "SCENARIO 12: list backups RDS"
+echo "SCENARIO 11: list backups RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=backups waitfor=true" || exit 1
-echo "SCENARIO 13: restore current instance RDS"
+echo "SCENARIO 12: restore current instance RDS"
 ansible-playbook test-restore.yml -e "rds_name=ansible-mysql01" || exit 1
-echo "SCENARIO 14: delete backup RDS (first found)"
+echo "SCENARIO 13: delete backup RDS (first found)"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_backup waitfor=true" || exit 1
-echo "SCENARIO 15: delete RDS"
+echo "SCENARIO 14: delete RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete waitfor=true" || exit 1
+echo "SCENARIO 15: delete RDS Parameter Group"
+ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_parametergroup" || exit 1
 #echo "SCENARIO 10: resize volume RDS"
 #echo "SCENARIO 11: resize flavor RDS"
 #echo "SCENARIO 12: delete backup RDS"
