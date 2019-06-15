@@ -13,3 +13,7 @@
       rds_backup_name: "backup_ansible-mysql01_1"
       localaction: "cleanup_testbackups"
       uri_retries: 1
+    - role: "otc_rds"
+      rds_name: "ansible-mysql01"
+      localaction: "delete_parametergroup"
+      uri_retries: 10
