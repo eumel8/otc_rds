@@ -24,3 +24,26 @@
 - name: Output of rds
   debug:
     msg: "{{ rds }}"
+
+# due the missing job_id we deactivate the status
+# delete jobs are deleted shortly
+# - name: Request job status from API (waiting for SUCCESS)
+#  uri:
+#    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/jobs?id={{ rds.json.job_id }}"
+#    method: GET
+#    return_content: yes
+#    follow_redirects: "{{ uri_follow_redirects }}"
+#    validate_certs: "{{ uri_validate_certs }}"
+#    status_code: 200,201,202,203,400,404
+#    headers:
+#      Content-Type: "application/json"
+#      X-Auth-Token: "{{ token['x_subject_token'] }}"
+#      X-Language: "en-us"
+#  register: jobstatus
+#  retries: 300
+#  delay: 5
+#  until: jobstatus.json.job.status == 'Completed'
+#  changed_when: false
+#  when:
+#    - rds.json.job_id is defined
+#    - waitfor | bool
