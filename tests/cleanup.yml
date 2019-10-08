@@ -20,3 +20,7 @@
       localaction: "delete_parametergroup"
       uri_retries: 1
       wait_for: true
+    - role: "otc_rds"
+      rds_name: "ansible-mysql01"
+      localaction: "delete_parametergroup"
+      uri_retries: 10

@@ -29,7 +29,7 @@ ansible-playbook test-restore.yml -e "rds_name=ansible-mysql01" || exit 1
 echo "SCENARIO 13: delete backup RDS (first found)"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_backup waitfor=true" || exit 1
 echo "SCENARIO 14: delete RDS"
-ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete" || exit 1
+ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete waitfor=true" || exit 1
 echo "SCENARIO 15: delete RDS Parameter Group"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_parametergroup" || exit 1
 #echo "SCENARIO 10: resize volume RDS"
