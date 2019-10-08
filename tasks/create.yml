@@ -106,24 +106,6 @@
     rds_id: "{{ (rds.content|from_json)|json_query('instance.id') }}"
   when: rds_name is defined
 
-- name: TEST Request job status from API (waiting for SUCCESS)
-  uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/jobs?id={{ rds.json.job_id }}"
-    method: GET
-    return_content: yes
-    follow_redirects: "{{ uri_follow_redirects }}"
-    validate_certs: "{{ uri_validate_certs }}"
-    headers:
-      Content-Type: "application/json"
-      X-Auth-Token: "{{ token['x_subject_token'] }}"
-      X-Language: "en-us"
-  retries: 300
-  delay: 5
-  changed_when: false
-  when:
-    - rds.json.job_id is defined
-    - waitfor | bool
-
 - name: Request job status from API (waiting for SUCCESS)
   uri:
     url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/jobs?id={{ rds.json.job_id }}"
