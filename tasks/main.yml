@@ -1,3 +1,4 @@
 - name: action {{ localaction }}
+  delegate_to: "{{ delegateto }}"
   include: "{{ localaction }}.yml"
   when: localaction is defined
