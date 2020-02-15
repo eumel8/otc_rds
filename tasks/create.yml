@@ -101,6 +101,10 @@
   debug:
     msg: "{{ rds }}"
 
+- name: Wait a bit for job start
+  command: sleep 10
+  when: waitfor | bool
+
 - name: Set fact rds_id for rds if rds_name is defined
   set_fact:
     rds_id: "{{ (rds.content|from_json)|json_query('instance.id') }}"
