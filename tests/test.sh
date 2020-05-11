@@ -26,6 +26,7 @@ echo "SCENARIO 11: list backups RDS"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=backups waitfor=true" || exit 1
 echo "SCENARIO 12: restore current instance RDS"
 ansible-playbook test-restore.yml -e "rds_name=ansible-mysql01" || exit 1
+sleep 10
 echo "SCENARIO 13: delete backup RDS (first found)"
 ansible-playbook test.yml -e "rds_name=ansible-mysql01 localaction=delete_backup waitfor=true" || exit 1
 echo "SCENARIO 14: delete RDS"
