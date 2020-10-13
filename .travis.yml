@@ -9,8 +9,6 @@ python:
 # https://docs.travis-ci.com/user/common-build-problems/
 env:
   - ANSIBLE_VERSION=latest
-  - ANSIBLE_VERSION=2.4.3.0
-  - ANSIBLE_VERSION=2.6.3
 
 branches:
   only:
