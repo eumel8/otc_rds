@@ -8,7 +8,7 @@
 
 - name: Send request to API (apply RDS parametergroup)
   uri:
-    url: "{{ AUTH_URL_RDS }}/v3/{{ OS_USER_DOMAIN_ID }}/configurations/{{ rds_parametergroup_id }}/apply"
+    url: "{{ AUTH_URL_RDS }}/v3/{{ PROJECT_ID }}/configurations/{{ rds_parametergroup_id }}/apply"
     method: PUT
     body_format: json
     return_content: yes
