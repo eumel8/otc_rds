@@ -1,5 +1,6 @@
 *.retry
 .eggs/
+.cache
 tests/roles
 .tox/
 doc/build/

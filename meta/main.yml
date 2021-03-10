@@ -1,5 +1,6 @@
 galaxy_info:
-  author: Frank Kloeker
+  role_name: otc_rds
+  author: eumel8
   description: Ansible Role for Open Telekom Cloud
   company: Deutsche Telekom AG
   license: Apache2

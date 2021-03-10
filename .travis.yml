@@ -3,15 +3,12 @@ dist: bionic
 
 language: python
 python:
-  - "2.7"
-  - "3.6"
+  - "3.8"
 
 # Doc: https://docs.travis-ci.com/user/customizing-the-build#Build-Matrix
 # https://docs.travis-ci.com/user/common-build-problems/
 env:
   - ANSIBLE_VERSION=latest
-  - ANSIBLE_VERSION=2.4.3.0
-  - ANSIBLE_VERSION=2.6.3
 
 branches:
   only:
@@ -25,7 +22,7 @@ install:
 
 script:
   # Check the role/playbook's syntax.
-  - find . -name "*.yml" | xargs ansible-lint
+  - find tasks -name "*.yml" | xargs ansible-lint
 
   # Run the role/playbook with ansible-playbook.
   # Requires cloud environment variables set in Travis
