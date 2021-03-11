@@ -48,12 +48,14 @@
     - (rds_name is defined or localaction == "flavor")
     - rds_type == "PostgreSQL"
 
-- debug:
+- name: rds_mysql_versions
+  debug:
     msg: "{{ rds_mysql_versions.json }}"
   when:
     - rds_name is not defined
 
-- debug:
+- name: rds_postgresql_versions
+  debug:
     msg: "{{ rds_postgresql_versions.json }}"
   when:
     - rds_name is not defined
