@@ -54,4 +54,3 @@
 - name: Output of rds
   debug:
     msg: "{{ rds }}"
-

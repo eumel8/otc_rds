@@ -22,7 +22,7 @@ install:
 
 script:
   # Check the role/playbook's syntax.
-  - find . -name "*.yml" | xargs ansible-lint
+  - find tasks -name "*.yml" | xargs ansible-lint
 
   # Run the role/playbook with ansible-playbook.
   # Requires cloud environment variables set in Travis
